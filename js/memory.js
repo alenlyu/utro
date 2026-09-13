@@ -42,9 +42,15 @@
       input.setAttribute('aria-label', 'Enter the number sequence you saw');
       container.appendChild(input);
       input.focus();
-      container.appendChild(finishBtn('Submit', submit));
+      const submitBtn = finishBtn('Submit', submit);
+      container.appendChild(submitBtn);
 
+      let submitted = false;
       function submit() {
+        if (submitted) return; // guard against double-fire (Enter + click, double-tap)
+        submitted = true;
+        input.disabled = true;
+        submitBtn.disabled = true;
         const cleaned = input.value.replace(/[^0-9]/g, '').split('');
         let correct = 0;
         digits.forEach((d, i) => { if (String(d) === cleaned[i]) correct += 1; });
