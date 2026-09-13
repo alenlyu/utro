@@ -17,20 +17,28 @@ const Exercises = (() => {
     spatial_memory:   { name: 'Spatial Memory',   category: 'memory',    defaultSec: 90,  run: null },
     digit_span:       { name: 'Digit Span',       category: 'memory',    defaultSec: 90,  run: null },
     matching_pairs:   { name: 'Matching Pairs',   category: 'memory',    defaultSec: 90,  run: null },
+    word_recall:      { name: 'Word Recall',      category: 'memory',    defaultSec: 90,  run: null },
     stroop:           { name: 'Stroop Test',      category: 'attention', defaultSec: 60,  run: null },
     visual_search:    { name: 'Visual Search',    category: 'attention', defaultSec: 60,  run: null },
     sustained:        { name: 'Sustained Attention', category: 'attention', defaultSec: 60, run: null },
+    change_detection: { name: 'Change Detection', category: 'attention', defaultSec: 60,  run: null },
+    divided_attention:{ name: 'Divided Attention', category: 'attention', defaultSec: 60, run: null },
     reaction:         { name: 'Reaction Time',    category: 'motor',     defaultSec: 45,  run: null },
     target_tracking:  { name: 'Target Tracking',  category: 'motor',     defaultSec: 45,  run: null },
+    sequence_tapping: { name: 'Sequence Tapping', category: 'motor',     defaultSec: 60,  run: null },
+    aim_trainer:      { name: 'Aim Trainer',      category: 'motor',     defaultSec: 45,  run: null },
+    rhythm_tap:       { name: 'Rhythm Tap',       category: 'motor',     defaultSec: 45,  run: null },
     logic_patterns:   { name: 'Logical Patterns', category: 'reasoning', defaultSec: 90,  run: null },
     deduction:        { name: 'Deduction',        category: 'reasoning', defaultSec: 90,  run: null },
     assumption:       { name: 'Detect the Assumption', category: 'reasoning', defaultSec: 90, run: null },
     fact_opinion:     { name: 'Fact vs Opinion',  category: 'reasoning', defaultSec: 60,  run: null },
     probability:      { name: 'Probability',      category: 'reasoning', defaultSec: 90,  run: null },
+    analogies:        { name: 'Analogies',        category: 'reasoning', defaultSec: 90,  run: null },
     french_grammar:   { name: 'French Grammar',   category: 'french',    defaultSec: 120, run: null },
     french_fillblank: { name: 'French Fill-in-Blank', category: 'french', defaultSec: 90, run: null },
     french_ordering:  { name: 'Sentence Ordering', category: 'french',   defaultSec: 90,  run: null },
-    french_listening: { name: 'French Listening',  category: 'french',  defaultSec: 90,  run: null }
+    french_listening: { name: 'French Listening',  category: 'french',  defaultSec: 90,  run: null },
+    verb_conjugation: { name: 'Verb Conjugation', category: 'french',   defaultSec: 90,  run: null }
   };
 
   function registerRun(id, fn) {
