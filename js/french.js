@@ -25,6 +25,7 @@
   }
 
   function runQuestionSet(container, opts, questions, buildUI, onComplete) {
+    const EXPLANATION_MS = 6000; // hold the answer on screen long enough to read
     const count = Math.min(questions.length, 3 + Math.floor(opts.level / 2));
     const picked = shuffle(questions).slice(0, count);
     let index = 0, correct = 0;
@@ -32,15 +33,47 @@
     function showQuestion() {
       if (index >= picked.length) return finish();
       clear(container);
+
+      const counter = document.createElement('div');
+      counter.className = 'session-step-label';
+      counter.textContent = `Question ${index + 1} of ${picked.length}`;
+      container.appendChild(counter);
+
       buildUI(container, picked[index], (isCorrect, explanationText) => {
         if (isCorrect) correct += 1;
+        if (isCorrect) AudioFx.success(); else AudioFx.error();
+
         const note = document.createElement('div');
         note.className = 'inline-explain ' + (isCorrect ? 'good' : 'bad');
-        note.textContent = (isCorrect ? '✓ Correct. ' : '✗ Not quite. ') + (explanationText || '');
+        note.innerHTML = `
+          <div class="explain-verdict">${isCorrect ? '✓ Correct' : '✗ Not quite'}</div>
+          <div class="explain-body">${explanationText || ''}</div>`;
         container.appendChild(note);
-        if (isCorrect) AudioFx.success(); else AudioFx.error();
-        index += 1;
-        setTimeout(showQuestion, 1500);
+
+        const continueBtn = document.createElement('button');
+        continueBtn.className = 'btn btn-primary btn-block continue-btn';
+        container.appendChild(continueBtn);
+        continueBtn.focus();
+
+        let finished = false;
+        let remaining = Math.ceil(EXPLANATION_MS / 1000);
+        continueBtn.textContent = `Continue (${remaining})`;
+        const interval = setInterval(() => {
+          remaining -= 1;
+          if (remaining > 0) continueBtn.textContent = `Continue (${remaining})`;
+        }, 1000);
+
+        function advance() {
+          if (finished) return;
+          finished = true;
+          clearInterval(interval);
+          clearTimeout(timeout);
+          continueBtn.disabled = true;
+          index += 1;
+          showQuestion();
+        }
+        const timeout = setTimeout(advance, EXPLANATION_MS);
+        continueBtn.addEventListener('click', advance);
       });
     }
     function finish() {

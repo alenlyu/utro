@@ -226,12 +226,32 @@ button:focus-visible, a:focus-visible, input:focus-visible {
 .feedback-detail { color: var(--text-muted); margin-top: 4px; }
 
 .question-text { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
-.question-quote { font-style: italic; background: var(--card-alt); padding: 14px 16px; border-radius: 12px; margin-bottom: 10px; }
+.question-quote { font-style: italic; background: var(--card-alt); padding: 14px 16px; border-radius: 12px; margin-bottom: 10px; font-weight: 400; }
 .question-prompt { font-weight: 600; margin-top: 10px; }
 .sequence { font-size: 1.6rem; font-weight: 700; }
-.inline-explain { margin-top: 14px; padding: 12px 14px; border-radius: 12px; font-size: 0.9rem; }
+.analogy-prompt { font-size: 1.15rem; font-weight: 600; display: block; padding: 8px 0; }
+
+.premise-box { background: var(--card-alt); border-radius: 12px; padding: 14px 16px; margin-bottom: 4px; }
+.premise { font-weight: 500; padding: 3px 0; }
+.premise + .premise { border-top: 1px solid var(--border); margin-top: 6px; padding-top: 9px; }
+
+.inline-explain { margin-top: 16px; padding: 14px 16px; border-radius: 12px; font-size: 0.92rem; line-height: 1.55; }
 .inline-explain.good { background: var(--accent-soft); color: var(--accent-strong); }
 .inline-explain.bad { background: var(--warn-soft); color: var(--warn); }
+.explain-verdict { font-weight: 700; margin-bottom: 6px; }
+.explain-body { font-weight: 400; }
+.continue-btn { margin-top: 12px; }
+
+/* Reveal the right answer when the user picks wrong */
+.btn-option-block.reveal-correct {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  opacity: 1;
+}
+.btn-option-block:disabled { opacity: 0.55; }
+.btn-option-block.chosen-correct:disabled,
+.btn-option-block.chosen-wrong:disabled,
+.btn-option-block.reveal-correct:disabled { opacity: 1; }
 
 /* Grids for memory exercises */
 .grid { display: grid; gap: 10px; }

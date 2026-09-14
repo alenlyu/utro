@@ -137,9 +137,15 @@
       input.placeholder = backward ? 'Type in reverse order' : 'Type in order';
       container.appendChild(input);
       input.focus();
-      container.appendChild(finishBtn('Submit', submit));
+      const submitBtn = finishBtn('Submit', submit);
+      container.appendChild(submitBtn);
 
+      let submitted = false;
       function submit() {
+        if (submitted) return; // guard against double-fire (Enter + click, double-tap)
+        submitted = true;
+        input.disabled = true;
+        submitBtn.disabled = true;
         const cleaned = input.value.replace(/[^0-9]/g, '').split('');
         const target = backward ? digits.slice().reverse() : digits;
         let correct = 0;

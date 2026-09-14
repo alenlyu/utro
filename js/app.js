@@ -13,11 +13,11 @@
   ];
 
   const CATEGORY_META = {
-    memory:    { label: 'Memory', exercises: ['memory_sequence', 'spatial_memory', 'digit_span', 'matching_pairs', 'word_recall'] },
-    attention: { label: 'Attention', exercises: ['stroop', 'visual_search', 'sustained', 'change_detection', 'divided_attention'] },
-    motor:     { label: 'Reaction', exercises: ['reaction', 'target_tracking', 'sequence_tapping', 'aim_trainer', 'rhythm_tap'] },
-    reasoning: { label: 'Critical Thinking', exercises: ['logic_patterns', 'deduction', 'assumption', 'fact_opinion', 'probability', 'analogies'] },
-    french:    { label: 'French', exercises: ['french_grammar', 'french_fillblank', 'french_ordering', 'french_listening', 'verb_conjugation'] }
+    memory:    { label: 'Memory', exercises: ['memory_sequence', 'spatial_memory', 'digit_span', 'matching_pairs'] },
+    attention: { label: 'Attention', exercises: ['stroop', 'visual_search', 'sustained'] },
+    motor:     { label: 'Reaction', exercises: ['reaction', 'target_tracking'] },
+    reasoning: { label: 'Critical Thinking', exercises: ['logic_patterns', 'deduction', 'assumption', 'fact_opinion', 'probability', 'analogies', 'odd_one_out', 'cognitive_bias', 'causal_reasoning', 'conditional_logic'] },
+    french:    { label: 'French', exercises: ['french_grammar', 'french_fillblank', 'french_ordering', 'french_listening'] }
   };
 
   function fmtDate(d) {
