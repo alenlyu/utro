@@ -1,235 +1,141 @@
-/* french.js — French language exercises (A2→B1), used both inside the daily
- * session and for standalone practice from the French tab.
+/* data/french-vocabulary.js
+ * Content bank for the French section. Kept separate from UI logic so new
+ * items can be added without touching exercise code.
+ *
+ * Weekly update: all exercises below are built from this week's target
+ * vocabulary (essentiel, élèves, tout d'abord, cela, expérience,
+ * généralement, obtenir, cependant, étudier, acheter) and from the essay
+ * paragraph on students and having a job.
  */
-(function () {
 
-  function clear(container) { container.innerHTML = ''; }
-  function header(container, title, sub) {
-    const h = document.createElement('div');
-    h.className = 'ex-header';
-    h.innerHTML = `<h2>${title}</h2>${sub ? `<p class="ex-sub">${sub}</p>` : ''}`;
-    container.appendChild(h);
+const FrenchVocab = [
+  { fr: 'essentiel', en: 'essential', example: "Il est essentiel pour les élèves d'avoir un travail." },
+  { fr: 'élèves', en: 'students', example: "Il est essentiel pour les élèves d'avoir un travail." },
+  { fr: "tout d'abord", en: 'first of all', example: 'Tout d\u2019abord, cela leur permet de devenir plus confiants.' },
+  { fr: 'cela', en: 'that / this', example: 'Cela leur permet de devenir plus confiants.' },
+  { fr: 'expérience', en: 'experience', example: "Ils auront plus d'expérience." },
+  { fr: 'généralement', en: 'generally', example: "Généralement, il est important d'avoir un travail." },
+  { fr: 'obtenir', en: 'to obtain / to get', example: "Il est important d'obtenir de l'expérience." },
+  { fr: 'cependant', en: 'however', example: "Cependant, ils ne doivent pas oublier d'étudier aussi." },
+  { fr: 'étudier', en: 'to study', example: "Ils ne doivent pas oublier d'étudier aussi." },
+  { fr: 'acheter', en: 'to buy', example: 'Ils peuvent acheter certaines choses.' }
+];
+
+const FrenchGrammarQuestions = [
+  {
+    id: 'g1', prompt: "Il ___ essentiel pour les élèves d'avoir un travail.",
+    options: ['est', 'es', 'sont', 'était'], correctIndex: 0,
+    explanation: '"Il est + adjectif" is an impersonal construction, so it takes "est" here, in the present tense.'
+  },
+  {
+    id: 'g2', prompt: "Il est essentiel pour les ___ d'avoir un travail.",
+    options: ['élève', 'élèves', 'élever', 'élevés'], correctIndex: 1,
+    explanation: '"Les" calls for the plural noun "élèves" (students), not the verb "élever" (to raise).'
+  },
+  {
+    id: 'g3', prompt: '___, cela leur permet de devenir plus confiants.',
+    options: ["Tout d'abord", 'Cependant', 'Généralement', 'Cela'], correctIndex: 0,
+    explanation: '"Tout d\u2019abord" ("first of all") introduces the first point of an argument, matching the essay\u2019s structure.'
+  },
+  {
+    id: 'g4', prompt: '___ leur permet de devenir plus confiants.',
+    options: ['Cela', 'Ça la', "Cela-là", "C'ela"], correctIndex: 0,
+    explanation: '"Cela" ("that / this") refers back to the idea just mentioned and is the subject of "permet".'
+  },
+  {
+    id: 'g5', prompt: "Ils auront plus d'___.",
+    options: ['expérience', 'expériences', 'expériencé', 'expériencer'], correctIndex: 0,
+    explanation: 'Here "expérience" means practical know-how and stays singular after "plus de".'
+  },
+  {
+    id: 'g6', prompt: "___, il est important d'avoir un travail.",
+    options: ['Généralement', 'Général', 'Générale', 'Généraux'], correctIndex: 0,
+    explanation: '"Généralement" is the adverb form (from "général" + "-ement"), used to introduce a general statement.'
+  },
+  {
+    id: 'g7', prompt: "Il est important d'___ de l'expérience.",
+    options: ['obtenir', 'obtenu', 'obtiens', 'obtenant'], correctIndex: 0,
+    explanation: 'After the preposition "de", the verb stays in the infinitive: "d\u2019obtenir".'
+  },
+  {
+    id: 'g8', prompt: '___, ils ne doivent pas oublier d\u2019étudier aussi.',
+    options: ['Cependant', 'Cépendant', 'Cependante', "Cepend'ant"], correctIndex: 0,
+    explanation: '"Cependant" ("however") introduces a contrast with the previous idea in the essay.'
+  },
+  {
+    id: 'g9', prompt: "Ils ne doivent pas oublier d'___ aussi.",
+    options: ['étudier', 'étudie', 'étude', 'étudiant'], correctIndex: 0,
+    explanation: 'After "oublier de", the following verb stays in the infinitive: "oublier d\u2019étudier".'
+  },
+  {
+    id: 'g10', prompt: '___ certaines choses.',
+    options: ['acheter', 'achète', 'achètent', 'acheté'], correctIndex: 0,
+    explanation: 'After the modal verb "peuvent", the following verb stays in the infinitive: "peuvent acheter".'
   }
-  function showFeedback(container, accuracy, detail) {
-    const good = accuracy >= 0.6;
-    if (good) AudioFx.success(); else AudioFx.error();
-    const fb = document.createElement('div');
-    fb.className = 'feedback ' + (good ? 'feedback-good' : 'feedback-bad');
-    fb.innerHTML = `<div class="feedback-pct">${Math.round(accuracy * 100)}%</div><div class="feedback-detail">${detail}</div>`;
-    container.appendChild(fb);
+];
+
+const FrenchFillBlank = [
+  { id: 'f1', sentence: "Il est ___ pour les élèves d'avoir un travail.", answer: 'essentiel', hints: ['essentiel', 'important', 'facile'] },
+  { id: 'f2', sentence: "Il est essentiel pour les ___ d'avoir un travail.", answer: 'élèves', hints: ['élèves', 'professeurs', 'parents'] },
+  { id: 'f3', sentence: '___, cela leur permet de devenir plus confiants.', answer: "Tout d'abord", hints: ["Tout d'abord", 'Cependant', 'Généralement'] },
+  { id: 'f4', sentence: 'Cela leur permet de devenir plus confiants, parce qu\u2019ils auront plus d\u2019___.', answer: 'expérience', hints: ['expérience', 'argent', 'temps'] },
+  { id: 'f5', sentence: '___, il est important d\u2019avoir un travail.', answer: 'Généralement', hints: ['Généralement', 'Rarement', 'Jamais'] },
+  { id: 'f6', sentence: "Il est important d'___ de l'expérience.", answer: 'obtenir', hints: ['obtenir', 'perdre', 'donner'] },
+  { id: 'f7', sentence: '___, ils ne doivent pas oublier d\u2019étudier aussi.', answer: 'Cependant', hints: ['Cependant', 'Ainsi', 'Enfin'] },
+  { id: 'f8', sentence: "Ils ne doivent pas oublier d'___ aussi.", answer: 'étudier', hints: ['étudier', 'dormir', 'voyager'] },
+  { id: 'f9', sentence: 'Ils peuvent ___ certaines choses.', answer: 'acheter', hints: ['acheter', 'vendre', 'jeter'] }
+];
+
+const FrenchSentenceOrdering = [
+  { id: 's1', words: ['il', 'est', 'essentiel', 'pour', 'les', 'élèves', "d'avoir", 'un', 'travail'], answer: "il est essentiel pour les élèves d'avoir un travail" },
+  { id: 's2', words: ['cela', 'leur', 'permet', 'de', 'devenir', 'plus', 'confiants'], answer: 'cela leur permet de devenir plus confiants' },
+  { id: 's3', words: ['généralement', 'il', 'est', 'important', "d'avoir", 'un', 'travail'], answer: "généralement il est important d'avoir un travail" },
+  { id: 's4', words: ['ils', 'peuvent', 'acheter', 'certaines', 'choses'], answer: 'ils peuvent acheter certaines choses' },
+  { id: 's5', words: ['ils', 'ne', 'doivent', 'pas', 'oublier', "d'étudier", 'aussi'], answer: "ils ne doivent pas oublier d'étudier aussi" }
+];
+
+const FrenchListeningItems = [
+  { id: 'l1', text: "Il est essentiel pour les élèves d'avoir un travail.", translation: "It's essential for students to have a job." },
+  { id: 'l2', text: 'Tout d\u2019abord, cela leur permet de devenir plus confiants.', translation: 'First of all, this allows them to become more confident.' },
+  { id: 'l3', text: "Généralement, il est important d'avoir un travail.", translation: "Generally, it's important to have a job." },
+  { id: 'l4', text: 'Cependant, ils ne doivent pas oublier d\u2019étudier aussi.', translation: 'However, they must not forget to study as well.' },
+  { id: 'l5', text: 'Ils peuvent acheter certaines choses.', translation: 'They can buy certain things.' }
+];
+
+const FrenchConjugation = [
+  {
+    id: 'vc1', infinitive: 'permettre', prompt: 'Cela leur ___ de devenir plus confiants.',
+    options: ['permet', 'permets', 'permettons', 'permettez'], correctIndex: 0,
+    explanation: '"Cela" is a 3rd-person singular subject, so "permettre" becomes "permet".'
+  },
+  {
+    id: 'vc2', infinitive: 'gagner', prompt: 'Ils ___ de l\u2019argent.',
+    options: ['gagne', 'gagnes', 'gagnons', 'gagnent'], correctIndex: 3,
+    explanation: '"Gagner" for "ils" (3rd-person plural) is "gagnent".'
+  },
+  {
+    id: 'vc3', infinitive: 'apprendre', prompt: 'Ils peuvent ___ à le gérer.',
+    options: ['apprendre', 'apprend', 'apprennent', 'appris'], correctIndex: 0,
+    explanation: 'After the modal verb "peuvent", the following verb stays in the infinitive: "apprendre".'
+  },
+  {
+    id: 'vc4', infinitive: 'obtenir', prompt: "Il est important d'___ de l'expérience.",
+    options: ['obtenir', 'obtient', 'obtiens', 'obtenant'], correctIndex: 0,
+    explanation: 'After the preposition "de", "obtenir" stays in the infinitive.'
+  },
+  {
+    id: 'vc5', infinitive: 'devoir', prompt: 'Ils ne ___ pas oublier d\u2019étudier.',
+    options: ['doivent', 'doit', 'dois', 'devons'], correctIndex: 0,
+    explanation: '"Devoir" for "ils" (3rd-person plural) is "doivent".'
+  },
+  {
+    id: 'vc6', infinitive: 'aider', prompt: 'Cela les ___ à obtenir un travail à l\u2019avenir.',
+    options: ['aidera', 'aide', 'aidons', 'aideront'], correctIndex: 0,
+    explanation: '"Cela" is singular, so the future tense of "aider" here is "aidera".'
+  },
+  {
+    id: 'vc7', infinitive: 'être', prompt: 'Il ___ essentiel pour les élèves d\u2019avoir un travail.',
+    options: ['est', 'es', 'sommes', 'sont'], correctIndex: 0,
+    explanation: '"Il" (impersonal subject) takes "est", the 3rd-person singular of "être".'
   }
-  function shuffle(arr) {
-    const a = arr.slice();
-    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
-    return a;
-  }
-
-  function runQuestionSet(container, opts, questions, buildUI, onComplete) {
-    const EXPLANATION_MS = 6000; // hold the answer on screen long enough to read
-    const count = Math.min(questions.length, 3 + Math.floor(opts.level / 2));
-    const picked = shuffle(questions).slice(0, count);
-    let index = 0, correct = 0;
-
-    function showQuestion() {
-      if (index >= picked.length) return finish();
-      clear(container);
-
-      const counter = document.createElement('div');
-      counter.className = 'session-step-label';
-      counter.textContent = `Question ${index + 1} of ${picked.length}`;
-      container.appendChild(counter);
-
-      buildUI(container, picked[index], (isCorrect, explanationText) => {
-        if (isCorrect) correct += 1;
-        if (isCorrect) AudioFx.success(); else AudioFx.error();
-
-        const note = document.createElement('div');
-        note.className = 'inline-explain ' + (isCorrect ? 'good' : 'bad');
-        note.innerHTML = `
-          <div class="explain-verdict">${isCorrect ? '✓ Correct' : '✗ Not quite'}</div>
-          <div class="explain-body">${explanationText || ''}</div>`;
-        container.appendChild(note);
-
-        const continueBtn = document.createElement('button');
-        continueBtn.className = 'btn btn-primary btn-block continue-btn';
-        container.appendChild(continueBtn);
-        continueBtn.focus();
-
-        let finished = false;
-        let remaining = Math.ceil(EXPLANATION_MS / 1000);
-        continueBtn.textContent = `Continue (${remaining})`;
-        const interval = setInterval(() => {
-          remaining -= 1;
-          if (remaining > 0) continueBtn.textContent = `Continue (${remaining})`;
-        }, 1000);
-
-        function advance() {
-          if (finished) return;
-          finished = true;
-          clearInterval(interval);
-          clearTimeout(timeout);
-          continueBtn.disabled = true;
-          index += 1;
-          showQuestion();
-        }
-        const timeout = setTimeout(advance, EXPLANATION_MS);
-        continueBtn.addEventListener('click', advance);
-      });
-    }
-    function finish() {
-      clear(container);
-      const accuracy = correct / picked.length;
-      showFeedback(container, accuracy, `${correct}/${picked.length} correct`);
-      onComplete({ accuracy, score: Exercises.computeScore(accuracy), duration: opts.durationSec });
-    }
-    showQuestion();
-  }
-
-  // ---- 1. French Grammar (multiple choice) --------------------------------
-  function runFrenchGrammar(container, opts, onComplete) {
-    runQuestionSet(container, opts, FrenchGrammarQuestions, (c, q, answer) => {
-      header(c, 'Français — Grammaire', '');
-      const p = document.createElement('div');
-      p.className = 'question-text';
-      p.textContent = q.prompt;
-      c.appendChild(p);
-      const optRow = document.createElement('div');
-      optRow.className = 'option-col';
-      q.options.forEach((opt, i) => {
-        const b = document.createElement('button');
-        b.className = 'btn btn-option-block';
-        b.textContent = opt;
-        b.addEventListener('click', () => {
-          [...optRow.children].forEach((x) => x.disabled = true);
-          b.classList.add(i === q.correctIndex ? 'chosen-correct' : 'chosen-wrong');
-          answer(i === q.correctIndex, q.explanation);
-        });
-        optRow.appendChild(b);
-      });
-      c.appendChild(optRow);
-    }, onComplete);
-  }
-
-  // ---- 2. Fill in the Blank -------------------------------------------------
-  function runFrenchFillBlank(container, opts, onComplete) {
-    runQuestionSet(container, opts, FrenchFillBlank, (c, q, answer) => {
-      header(c, 'Français — Complétez', '');
-      const p = document.createElement('div');
-      p.className = 'question-text';
-      p.textContent = q.sentence;
-      c.appendChild(p);
-      const optRow = document.createElement('div');
-      optRow.className = 'option-row';
-      shuffle(q.hints).forEach((opt) => {
-        const b = document.createElement('button');
-        b.className = 'btn btn-option';
-        b.textContent = opt;
-        b.addEventListener('click', () => {
-          [...optRow.children].forEach((x) => x.disabled = true);
-          const isCorrect = opt === q.answer;
-          b.classList.add(isCorrect ? 'chosen-correct' : 'chosen-wrong');
-          answer(isCorrect, `Réponse: "${q.answer}"`);
-        });
-        optRow.appendChild(b);
-      });
-      c.appendChild(optRow);
-    }, onComplete);
-  }
-
-  // ---- 3. Sentence Ordering ---------------------------------------------------
-  function runFrenchOrdering(container, opts, onComplete) {
-    runQuestionSet(container, opts, FrenchSentenceOrdering, (c, q, answer) => {
-      header(c, 'Français — Remettez les mots en ordre', '');
-      const built = [];
-      const bank = shuffle(q.words);
-      const sentenceRow = document.createElement('div');
-      sentenceRow.className = 'sentence-build';
-      const bankRow = document.createElement('div');
-      bankRow.className = 'word-bank';
-      c.appendChild(sentenceRow);
-      c.appendChild(bankRow);
-
-      function renderBank() {
-        bankRow.innerHTML = '';
-        bank.forEach((w, i) => {
-          if (built.includes(i)) return;
-          const chip = document.createElement('button');
-          chip.className = 'word-chip';
-          chip.textContent = w;
-          chip.addEventListener('click', () => { built.push(i); renderAll(); });
-          bankRow.appendChild(chip);
-        });
-      }
-      function renderSentence() {
-        sentenceRow.innerHTML = '';
-        built.forEach((i) => {
-          const chip = document.createElement('button');
-          chip.className = 'word-chip placed';
-          chip.textContent = bank[i];
-          chip.addEventListener('click', () => { built.splice(built.indexOf(i), 1); renderAll(); });
-          sentenceRow.appendChild(chip);
-        });
-        if (built.length === bank.length) {
-          const check = document.createElement('button');
-          check.className = 'btn btn-primary';
-          check.textContent = 'Check';
-          check.addEventListener('click', () => {
-            const attempt = built.map((i) => bank[i]).join(' ').toLowerCase();
-            const isCorrect = attempt === q.answer.toLowerCase();
-            answer(isCorrect, `Réponse: "${q.answer}"`);
-          });
-          c.appendChild(check);
-        }
-      }
-      function renderAll() { renderBank(); renderSentence(); }
-      renderAll();
-    }, onComplete);
-  }
-
-  // ---- 4. Listening -----------------------------------------------------------
-  function runFrenchListening(container, opts, onComplete) {
-    runQuestionSet(container, opts, FrenchListeningItems, (c, q, answer) => {
-      header(c, 'Français — Écoute', 'Listen, then choose the correct translation.');
-      const playBtn = document.createElement('button');
-      playBtn.className = 'btn btn-primary';
-      playBtn.textContent = Speech.supported ? '🔊 Play audio' : 'Audio unavailable — read the sentence';
-      playBtn.addEventListener('click', () => Speech.speakFrench(q.text));
-      c.appendChild(playBtn);
-      if (!Speech.supported) {
-        const note = document.createElement('div');
-        note.className = 'question-text';
-        note.textContent = q.text;
-        c.appendChild(note);
-      } else {
-        setTimeout(() => Speech.speakFrench(q.text), 300);
-      }
-      const others = shuffle(FrenchListeningItems.filter((x) => x.id !== q.id)).slice(0, 2).map((x) => x.translation);
-      const options = shuffle([q.translation, ...others]);
-      const optRow = document.createElement('div');
-      optRow.className = 'option-col';
-      options.forEach((opt) => {
-        const b = document.createElement('button');
-        b.className = 'btn btn-option-block';
-        b.textContent = opt;
-        b.addEventListener('click', () => {
-          [...optRow.children].forEach((x) => x.disabled = true);
-          const isCorrect = opt === q.translation;
-          b.classList.add(isCorrect ? 'chosen-correct' : 'chosen-wrong');
-          answer(isCorrect, `"${q.text}" = "${q.translation}"`);
-        });
-        optRow.appendChild(b);
-      });
-      c.appendChild(optRow);
-    }, onComplete);
-  }
-
-  Exercises.registerRun('french_grammar', runFrenchGrammar);
-  Exercises.registerRun('french_fillblank', runFrenchFillBlank);
-  Exercises.registerRun('french_ordering', runFrenchOrdering);
-  Exercises.registerRun('french_listening', runFrenchListening);
-
-  // Exposed for the standalone French tab (practice outside a session)
-  window.FrenchExercises = {
-    runFrenchGrammar, runFrenchFillBlank, runFrenchOrdering, runFrenchListening
-  };
-})();
+];
